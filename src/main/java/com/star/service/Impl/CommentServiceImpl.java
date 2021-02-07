@@ -12,11 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description: 博客评论业务层接口实现类
- * @Author: ONESTAR
- * @Date: Created in 13:28 2020/4/5
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 博客评论业务层接口实现类
  */
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -32,13 +28,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> listCommentByBlogId(Long blogId) {
-        //查询出父节点
+        //查询出父节点   父节点评论parent_comment_id  初始值为-1
         List<Comment> comments = commentDao.findByBlogIdParentIdNull(blogId, Long.parseLong("-1"));
         for(Comment comment : comments){
+            // 父节点id
             Long id = comment.getId();
+            // 父节点昵称
             String parentNickname1 = comment.getNickname();
+            // 获取一级回复
             List<Comment> childComments = commentDao.findByBlogIdParentIdNotNull(blogId,id);
-//            查询出子评论
+            // 查询出子评论
             combineChildren(blogId, childComments, parentNickname1);
             comment.setReplyComments(tempReplys);
             tempReplys = new ArrayList<>();
@@ -47,22 +46,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void combineChildren(Long blogId, List<Comment> childComments, String parentNickname1) {
-//        判断是否有一级子评论
+        // 判断是否有一级子评论
         if(childComments.size() > 0){
-//                循环找出子评论的id
+            // 循环找出子评论的id
             for(Comment childComment : childComments){
                 String parentNickname = childComment.getNickname();
                 childComment.setParentNickname(parentNickname1);
                 tempReplys.add(childComment);
                 Long childId = childComment.getId();
-//                    查询出子二级评论
+                // 查询出子二级评论
                 recursively(blogId, childId, parentNickname);
             }
         }
     }
 
     private void recursively(Long blogId, Long childId, String parentNickname1) {
-//        根据子一级评论的id找到子二级评论
+        // 根据子一级评论的id找到子二级评论
         List<Comment> replayComments = commentDao.findByBlogIdAndReplayId(blogId,childId);
 
         if(replayComments.size() > 0){
@@ -76,20 +75,21 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-//    新增评论
+    // 新增评论
     @Override
     public int saveComment(Comment comment) {
         comment.setCreateTime(new Date());
         int comments = commentDao.saveComment(comment);
-//        文章评论计数
+        // 文章评论计数
         blogDao.getCommentCountById(comment.getBlogId());
         return comments;
     }
 
-//    删除评论
+    // 删除评论
     @Override
     public void deleteComment(Comment comment,Long id) {
         commentDao.deleteComment(id);
+        // 更新评论计数
         blogDao.getCommentCountById(comment.getBlogId());
     }
 }

@@ -8,26 +8,28 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @Description: 友链持久层接口
- * @Date: Created in 14:29 2020/4/16
- * @Author: ONESTAR
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 友链持久层接口
  */
 @Mapper
 @Repository
 public interface FriendLinkDao {
 
+    // 查询所有友链
     List<FriendLink> listFriendLink();
 
-    int saveFriendLink(FriendLink friendLink);
-
+    // 根据id查询友链
     FriendLink getFriendLink(Long id);
 
+    // 根据网址查询友链
     FriendLink getFriendLinkByBlogaddress(String blogaddress);
 
+    // 添加友链
+    int saveFriendLink(FriendLink friendLink);
+
+    // 编辑修改友链
     int updateFriendLink(FriendLink friendLink);
 
+    // 删除友链
     void deleteFriendLink(Long id);
 
 }

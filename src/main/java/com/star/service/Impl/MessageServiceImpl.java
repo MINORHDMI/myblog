@@ -11,11 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description: 留言业务层接口实现类
- * @Date: Created in 11:45 2020/4/16
- * @Author: ONESTAR
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 留言业务层接口实现类
  */
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -26,16 +22,9 @@ public class MessageServiceImpl implements MessageService {
     //存放迭代找出的所有子代的集合
     private List<Message> tempReplys = new ArrayList<>();
 
-    /**
-     * @Description: 查询留言
-     * @Auther: ONESTAR
-     * @Date: 17:26 2020/4/14
-     * @Param:
-     * @Return: 留言消息
-     */
     @Override
     public List<Message> listMessage() {
-        //查询出父节点
+        //查询出父节点  与评论实现一致
         List<Message> messages = messageDao.findByParentIdNull(Long.parseLong("-1"));
         for(Message message : messages){
             Long id = message.getId();
@@ -49,14 +38,6 @@ public class MessageServiceImpl implements MessageService {
         return messages;
     }
 
-    /**
-     * @Description: 查询出子留言
-     * @Auther: ONESTAR
-     * @Date: 17:31 2020/4/14
-     * @Param: childMessages：所有子留言
-     * @Param: parentNickname1：父留言的姓名
-     * @Return:
-     */
     private void combineChildren(List<Message> childMessages, String parentNickname1) {
         //判断是否有一级子回复
         if(childMessages.size() > 0){
@@ -72,14 +53,6 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    /**
-     * @Description: 循环迭代找出子集回复
-     * @Auther: ONESTAR
-     * @Date: 17:33 2020/4/14
-     * @Param: childId：子留言的id
-     * @Param: parentNickname1：子留言的姓名
-     * @Return:
-     */
     private void recursively(Long childId, String parentNickname1) {
         //根据子一级留言的id找到子二级留言
         List<Message> replayMessages = messageDao.findByReplayId(childId);
@@ -97,13 +70,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    //存储留言信息
+    // 存储留言信息
     public int saveMessage(Message message) {
         message.setCreateTime(new Date());
         return messageDao.saveMessage(message);
     }
 
-//    删除留言
+    // 删除留言
     @Override
     public void deleteMessage(Long id) {
         messageDao.deleteMessage(id);

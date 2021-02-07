@@ -19,11 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * @Description: 评论控制器
- * @Author: ONESTAR
- * @Date: Created in 17:16 2020/4/5
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 评论控制器
  */
 @Controller
 public class CommentController {
@@ -37,7 +33,7 @@ public class CommentController {
     @Value("${comment.avatar}")
     private String avatar;
 
-//    查询评论列表
+    // 查询评论列表
     @GetMapping("/comments/{blogId}")
     public String comments(@PathVariable Long blogId, Model model) {
         List<Comment> comments = commentService.listCommentByBlogId(blogId);
@@ -45,10 +41,11 @@ public class CommentController {
         return "blog :: commentList";
     }
 
-//    新增评论
+    // 新增评论
     @PostMapping("/comments")
     public String post(Comment comment, HttpSession session,Model model) {
         Long blogId = comment.getBlogId();
+        // 取到的类型是Object 所以需要强制转换
         User user = (User) session.getAttribute("user");
         if (user != null) {
             comment.setAvatar(user.getAvatar());
@@ -58,6 +55,7 @@ public class CommentController {
             comment.setAvatar(avatar);
         }
 
+        // 存在父节点  则设置
         if (comment.getParentComment().getId() != null) {
             comment.setParentCommentId(comment.getParentComment().getId());
         }

@@ -7,24 +7,25 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @Description: 照片墙持久层接口
- * @Date: Created in 23:32 2020/4/16
- * @Author: ONESTAR
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 照片墙持久层接口
  */
 @Mapper
 @Repository
 public interface PictureDao {
 
+    // 查询照片
     List<Picture> listPicture();
 
-    int savePicture(Picture picture);
-
+    // 获取照片
     Picture getPicture(Long id);
 
+    // 添加照片
+    int savePicture(Picture picture);
+
+    // 修改照片
     int updatePicture(Picture picture);
 
+    // 删除照片
     void deletePicture(Long id);
 
 }

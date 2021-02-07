@@ -14,11 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description: 博客列表业务层接口实现类
- * @Author: ONESTAR
- * @Date: Created in 23:36 2020/3/30
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 博客列表业务层接口实现类
  */
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -38,6 +34,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public int saveBlog(Blog blog) {
+        // 设置创建时间 更新时间 浏览数 评论数
         blog.setCreateTime(new Date());
         blog.setUpdateTime(new Date());
         blog.setViews(0);
@@ -47,6 +44,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public int updateBlog(ShowBlog showBlog) {
+        // 更新修改时间
         showBlog.setUpdateTime(new Date());
         return blogDao.updateBlog(showBlog);
     }
@@ -72,11 +70,6 @@ public class BlogServiceImpl implements BlogService {
         return allRecommendBlog;
     }
 
-//    @Override
-//    public List<FirstPageBlog> getNewBlog() {
-//        return blogDao.getNewBlog();
-//    }
-
     @Override
     public List<FirstPageBlog> getSearchBlog(String query) {
         return blogDao.getSearchBlog(query);
@@ -84,16 +77,17 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public DetailedBlog getDetailedBlog(Long id) {
-        System.out.println(id);
+        // System.out.println(id);
         DetailedBlog detailedBlog = blogDao.getDetailedBlog(id);
         if (detailedBlog == null) {
             throw new NotFoundException("该博客不存在");
         }
         String content = detailedBlog.getContent();
+        // markdown转html
         detailedBlog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
-//        文章访问数量自增
+        // 文章访问数量自增
         blogDao.updateViews(id);
-//        文章评论数量更新
+        //  文章评论数量更新
         blogDao.getCommentCountById(id);
         return detailedBlog;
     }

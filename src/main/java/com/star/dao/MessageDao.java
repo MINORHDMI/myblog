@@ -8,29 +8,25 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @Description: 留言持久层接口
- * @Date: Created in 11:25 2020/4/16
- * @Author: ONESTAR
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 留言持久层接口
  */
 @Mapper
 @Repository
 public interface MessageDao {
 
-    //添加一个评论
-    int saveMessage(Message message);
-
-    //查询父级评论
+    //查询父级留言
     List<Message> findByParentIdNull(@Param("ParentId") Long ParentId);
 
-    //查询一级回复
+    //查询一级留言
     List<Message> findByParentIdNotNull(@Param("id") Long id);
 
-    //查询二级以及所有子集回复
+    //查询二级以及所有子集留言
     List<Message> findByReplayId(@Param("childId") Long childId);
 
-    //删除评论
+    //添加一个留言
+    int saveMessage(Message message);
+
+    //删除留言
     void deleteMessage(Long id);
 
 }

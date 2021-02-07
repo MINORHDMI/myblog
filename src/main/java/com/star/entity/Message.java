@@ -6,24 +6,28 @@ import java.util.List;
 
 /**
  * @Description: 留言实体类
- * @Author: ONESTAR
- * @Date: Created in 9:26 2020/3/26
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
  */
 public class Message {
 
     private Long id;
+    // 昵称
     private String nickname;
+    // 邮箱
     private String email;
+    // 内容
     private String content;
+    // 头像
     private String avatar;
+    // 创建时间
     private Date createTime;
+    // 父留言
     private Long parentMessageId;
+    // 是否管理员信息
     private boolean adminMessage;
 
     //回复评论
     private List<Message> replyMessages = new ArrayList<>();
+
     private Message parentMessage;
     private String parentNickname;
 

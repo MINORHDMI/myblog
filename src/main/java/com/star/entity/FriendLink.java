@@ -5,18 +5,18 @@ import org.hibernate.validator.constraints.NotBlank;
 import java.util.Date;
 
 /**
- * @Description: 友链实体类
- * @Author: ONESTAR
- * @Date: Created in 9:25 2020/3/26
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 友链实体类
  */
 public class FriendLink {
 
     private Long id;
+    // 链接名称
     private String blogname;
+    // 链接地址
     private String blogaddress;
+    // 链接图片
     private String pictureaddress;
+    // 创建时间
     private Date createTime;
 
     public FriendLink() {

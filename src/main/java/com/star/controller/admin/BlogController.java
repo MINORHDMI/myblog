@@ -21,11 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @Description: 博客管理控制器
- * @Author: ONESTAR
- * @Date: Created in 12:08 2020/3/27
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 博客管理控制器
  */
 @Controller
 @RequestMapping("/admin")
@@ -49,7 +45,7 @@ public class BlogController {
         return "admin/blogs";
     }
 
-    //跳转博客新增页面
+    // 跳转博客新增页面
     @GetMapping("/blogs/input")
     public String input(Model model) {
         model.addAttribute("types",typeService.getAllType());
@@ -57,7 +53,7 @@ public class BlogController {
         return "admin/blogs-input";
     }
 
-//    博客新增
+    // 博客新增
     @PostMapping("/blogs")
     public String post(Blog blog, RedirectAttributes attributes, HttpSession session){
         blog.setUser((User) session.getAttribute("user"));
@@ -77,7 +73,7 @@ public class BlogController {
         return "redirect:/admin/blogs";
     }
 
-//    删除文章
+    // 删除文章
     @GetMapping("/blogs/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes attributes) {
         blogService.deleteBlog(id);
@@ -85,7 +81,7 @@ public class BlogController {
         return "redirect:/admin/blogs";
     }
 
-//    跳转编辑修改文章
+    // 跳转编辑修改文章
     @GetMapping("/blogs/{id}/input")
     public String editInput(@PathVariable Long id, Model model) {
         ShowBlog blogById = blogService.getBlogById(id);
@@ -95,7 +91,7 @@ public class BlogController {
         return "admin/blogs-input";
     }
 
-//    编辑修改文章
+    // 编辑修改文章
     @PostMapping("/blogs/{id}")
     public String editPost(@Valid ShowBlog showBlog, RedirectAttributes attributes) {
         int b = blogService.updateBlog(showBlog);
@@ -107,7 +103,7 @@ public class BlogController {
         return "redirect:/admin/blogs";
     }
 
-//    搜索博客
+    // 搜索博客
     @PostMapping("/blogs/search")
     public String search(SearchBlog searchBlog, Model model,
                          @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
@@ -115,6 +111,7 @@ public class BlogController {
         PageHelper.startPage(pageNum, 10);
         PageInfo<BlogQuery> pageInfo = new PageInfo<>(blogBySearch);
         model.addAttribute("pageInfo", pageInfo);
+        // ajax实现
         return "admin/blogs :: blogList";
     }
 }

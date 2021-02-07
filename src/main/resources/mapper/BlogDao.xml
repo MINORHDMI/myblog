@@ -82,7 +82,7 @@
         commentabled = #{commentabled} ,update_time = #{updateTime} where id = #{id};
     </update>
 
-
+    <!--根据标题或者类型搜索博客 -->
     <select id="searchByTitleOrTypeOrRecommend" parameterType="com.star.queryvo.SearchBlog" resultMap="blog">
         <bind name="pattern" value="'%' + title + '%'" />
         select b.id,b.title,b.update_time,b.recommend,b.type_id,t.id,t.name from myblog.t_blog b ,myblog.t_type t
@@ -114,6 +114,7 @@
         <result property="avatar" column="avatar"/>
     </resultMap>
 
+    <!--  获取首页展示博客  -->
     <select id="getFirstPageBlog" resultMap="firstPageBlog">
         select b.id,b.title,b.first_picture, b.views, b.comment_count,b.update_time,b.description,
         t.name ,
