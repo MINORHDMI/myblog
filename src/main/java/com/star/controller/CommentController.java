@@ -38,6 +38,7 @@ public class CommentController {
     public String comments(@PathVariable Long blogId, Model model) {
         List<Comment> comments = commentService.listCommentByBlogId(blogId);
         model.addAttribute("comments", comments);
+        // 返回blog页面下的commentList
         return "blog :: commentList";
     }
 

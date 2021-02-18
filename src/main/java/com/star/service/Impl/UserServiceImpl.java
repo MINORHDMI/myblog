@@ -8,11 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @Description: 用户业务层接口实现类
- * @Author: ONESTAR
- * @Date: Created in 11:04 2020/3/26
- * @QQ群: 530311074
- * @URL: https://onestar.newstar.net.cn/
+ * @description: 用户业务层接口实现类
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,6 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User checkUser(String username, String password) {
+        // 查找时先将密码MD5加密
         User user = userDao.findByUsernameAndPassword(username, MD5Utils.code(password));
         return user;
     }
